@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
 from api.forms import CaseForm
-from .models import User, Manager, Employee, Case, CaseType, Location, Locker
+from .models import User, Manager, Employee, Case, CaseType, Location, Locker, DocumentType
 
 
 class UserCreationForm(forms.ModelForm):
@@ -91,5 +91,6 @@ admin.site.register(User, UserAdminForm)
 # Models
 admin.site.register(Case, CaseModelAdmin)
 admin.site.register(CaseType)
+admin.site.register(DocumentType)
 admin.site.register(Locker)
 admin.site.register(Location)

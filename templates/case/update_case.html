@@ -79,6 +79,13 @@
             {% endif %}
         </div>
         <div class="field">
+            <div class="control">
+                <a class="button is-text" href="{% url 'download_script' object.type.pk %}">
+                    Download script
+                </a>
+            </div>
+        </div>
+        <div class="field">
             <label class="label" for="{{ form.status.id_for_label}}">
                 {{ form.status.label }}
             </label>
@@ -90,6 +97,21 @@
             {% if form.status.errors %}
                 <p class="help is-danger">
                     {{ form.status.errors|striptags }}
+                </p>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label class="label" for="{{ form.executor.id_for_label}}">
+                {{ form.executor.label }}
+            </label>
+            <div class="control">
+                <div class="select">
+                    {{ form.executor }}
+                </div>
+            </div>
+            {% if form.executor.errors %}
+                <p class="help is-danger">
+                    {{ form.executor.errors|striptags }}
                 </p>
             {% endif %}
         </div>

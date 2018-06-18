@@ -1,5 +1,6 @@
 {% load static %}
 <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <div class="container">
         <div class="navbar-brand">
             <div class="navbar-item" href="#">
                 <img src="{% static 'icons/logo.svg' %}" width="50" alt="Consulting">
@@ -14,4 +15,5 @@
                 <a href="{% url 'logout' %}" class="is-link">Logout</a>
             </div>
         </div>
+    </div>
 </nav>

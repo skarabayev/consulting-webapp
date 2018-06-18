@@ -1,9 +1,10 @@
 from django import forms
+from django.contrib.admin.widgets import AdminFileWidget
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.utils.translation import ugettext_lazy as _
 
-from api.models import Case, User
+from api.models import Case, User, PaperDocument, EDocument
 
 
 class LoginForm(AuthenticationForm):
@@ -44,10 +45,26 @@ class CaseForm(forms.ModelForm):
                 'description',
                 'status',
                 'type',
-                'executor',)
+                'executor',
+                'checkpoint',)
 
-    def get_form_class(self):
-        return self.__class__.__name__
+
+class PaperDocumentForm(forms.ModelForm):
+
+    class Meta:
+        model = PaperDocument
+        fields="__all__"
+
+    def __init__(self, *args, **kwargs):
+        try:
+            case_id = kwargs.pop('case_id')
+        except KeyError:
+            has_key = False
+        else:
+            has_key = True
+        super(PaperDocumentForm,self).__init__(*args,**kwargs)
+        if has_key:
+            self.fields['case'].queryset = Case.objects.filter(id=case_id).all()
 
 
 class CaseAddForm(forms.ModelForm):
@@ -59,6 +76,26 @@ class CaseAddForm(forms.ModelForm):
         fields = ('submition_datetime',
                   'description',
                   'type',)
+
+
+class EDocumentForm(forms.ModelForm):
+
+    file = forms.FileField(widget=AdminFileWidget)
+
+    class Meta:
+        model = EDocument
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        try:
+            case_id = kwargs.pop('case_id')
+        except KeyError:
+            has_key = False
+        else:
+            has_key = True
+        super(EDocumentForm,self).__init__(*args,**kwargs)
+        if has_key:
+            self.fields['case'].queryset = Case.objects.filter(id=case_id).all()
 
 
 

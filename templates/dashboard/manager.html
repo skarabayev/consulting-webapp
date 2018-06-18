@@ -1,12 +1,14 @@
 {% load static %}
 <div class="container">
-    <h1 class="title">Manager menu</h1>
-    <a href="{% url 'create' %}" class="button is-primary">
-        <span>Submit new case</span>
-        <span class="icon">
-            <i class="fas fa-file"></i>
-        </span>
-    </a>
+    <div class="box">
+        <h1 class="title">Manager menu</h1>
+        <a href="{% url 'create' %}" class="button is-primary">
+            <span>Submit new case</span>
+            <span class="icon">
+                <i class="fas fa-file"></i>
+            </span>
+        </a>
+    </div>
     <div class="row">
         <div class="column">
         <div class="box">
@@ -42,7 +44,7 @@
                             </a>
                         </td>
                         <td>
-                            <a href="">
+                            <a href="{% url 'delete' case.pk %}">
                                 <span class="icon">
                                     <i class="fas fa-trash"></i>
                                 </span>
@@ -84,14 +86,14 @@
                         </td>
                         <td>{{ case.get_status_display }}</td>
                         <td>
-                            <a href="">
+                            <a href="{% url 'update' case.pk %}">
                                 <span class="icon">
                                     <i class="fas fa-edit"></i>
                                 </span>
                             </a>
                         </td>
                         <td>
-                            <a href="">
+                            <a href="{% url 'delete' case.pk %}">
                                 <span class="icon">
                                     <i class="fas fa-trash"></i>
                                 </span>

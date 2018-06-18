@@ -1,0 +1,49 @@
+{% load static %}
+<div class="container">
+    <h1 class="title">Employee menu</h1>
+    <div class="row">
+        <div class="column">
+            <div class="box">
+            <h3 class="subtitle">Accepted cases</h3>
+                <table class="table">
+                <thead>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>DESCRIPTION</th>
+                        <th>STATUS</th>
+                        <th>EDIT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for case in accepted %}
+                    <tr>
+                        <td>{{ case.identifier }}</td>
+                        <td>
+                            {% if case.description|length <= 30 %}
+                                {{ case.description }}
+                            {% else %}
+                                {{ case.description|truncatechars:30 }}...
+                            {% endif %}
+                        </td>
+                        <td>{{ case.get_status_display }}</td>
+                        <td>
+                            <a href="{% url 'edit' case.pk %}">
+                                <span class="icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <h3>No records</h3>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

@@ -121,6 +121,14 @@ class CaseType(models.Model):
         return self.name
 
 
+class Checkpoint(models.Model):
+
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
 class Case(models.Model):
 
     NA = 0
@@ -138,6 +146,7 @@ class Case(models.Model):
     submition_datetime = models.DateTimeField()
     description = models.CharField(max_length=500)
     status = models.IntegerField(choices=choices, default=NA)
+    checkpoint = models.ForeignKey('api.Checkpoint', on_delete=models.PROTECT, null=True)
     type = models.ForeignKey("api.CaseType", on_delete=models.PROTECT)
     executor = models.ForeignKey("api.Employee", on_delete=models.PROTECT,
                                  blank=True,
@@ -152,7 +161,7 @@ class Case(models.Model):
         super().clean()
         if self.executor:
             if not (self.status == self.ACCEPTED):
-                raise ValidationError("Cannot allocate case to employee until case is not accepted.")
+                raise ValidationError({'executor':"Cannot allocate case to employee until case is not accepted."})
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -160,9 +169,15 @@ class Case(models.Model):
             self.passcode = Case.generate_unique(20)
         super().save(*args,**kwargs)
 
+    def __str__(self):
+        return "ID: {}".format(self.identifier)
+
 
 class DocumentType(models.Model):
     name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
 
 
 class Document(models.Model):
@@ -172,6 +187,9 @@ class Document(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return "{} {} {}".format(self.name,self.type.name,str(self.case))
 
 
 class PaperDocument(Document):
@@ -186,6 +204,12 @@ class Locker(models.Model):
     identifier = models.IntegerField()
     location = models.ForeignKey("api.Location", on_delete=models.PROTECT, blank=False)
 
+    def __str__(self):
+        return "{} {}".format(self.identifier, str(self.location))
+
+    def get_location(self):
+        return self.__str__()
+
 
 class Location(models.Model):
     ARCHIVE = "ARCHIVE"
@@ -197,3 +221,6 @@ class Location(models.Model):
     )
 
     type = models.CharField(max_length=20, choices=types, blank=False)
+
+    def __str__(self):
+        return self.get_type_display()

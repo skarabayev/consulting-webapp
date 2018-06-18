@@ -7,9 +7,9 @@
 {% block content %}
     {% include 'navbar.html' %}
     {% if user.is_manager %}
-        {% include 'manager.html' %}
+        {% include 'dashboard/manager.html' %}
     {% elif user.is_employee %}
-        {% include 'employee.html' %}
+        {% include 'dashboard/employee.html' %}
     {% endif %}
 
 {% endblock %}

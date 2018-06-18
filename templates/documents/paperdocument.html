@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h3 class="subtitle">{{ title }}</h3>
+        <form action="" method="post">
+        {% csrf_token %}
+        <div class="field">
+            <label class="label" for="{{ form.name.id_for_label}}">
+                {{ form.name.label }}
+            </label>
+            <div class="control">
+                {{ form.name|attr:"class:input" }}
+            </div>
+            {% if form.name.errors %}
+                <p class="help is-danger">
+                    {{ form.name.errors|striptags }}
+                </p>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label class="label" for="{{ form.type.id_for_label}}">
+                {{ form.type.label }}
+            </label>
+            <div class="control">
+                <div class="select">
+                    {{ form.type }}
+                </div>
+            </div>
+            {% if form.type.errors %}
+                <p class="help is-danger">
+                    {{ form.type.errors|striptags }}
+                </p>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label class="label" for="{{ form.case.id_for_label}}">
+                {{ form.case.label }}
+            </label>
+            <div class="control">
+                <div class="select">
+                    {{ form.case }}
+                </div>
+            </div>
+            {% if form.type.errors %}
+                <p class="help is-danger">
+                    {{ form.case.errors|striptags }}
+                </p>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label class="label" for="{{ form.locker.id_for_label}}">
+                {{ form.locker.label }}
+            </label>
+            <div class="control">
+                <div class="select">
+                    {{ form.locker }}
+                </div>
+            </div>
+            {% if form.locker.errors %}
+                <p class="help is-danger">
+                    {{ form.locker.errors|striptags }}
+                </p>
+            {% endif %}
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link" type="submit">Submit</button>
+            </div>
+            <div class="control">
+                <a class="button is-text" href="{% url 'edit' cid %}">Cancel</a>
+            </div>
+        </div>
+        </form>
+    </div>
+{% endblock %}

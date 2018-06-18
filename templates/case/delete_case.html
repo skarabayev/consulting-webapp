@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Delete case {{ object.identifier }}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="box message-box">
+            <div class="row">
+                <h1 class="title"> Delete case "{{ object.identifier }}"</h1>
+                <h2>Are you sure you want to delete "{{ object.identifier }}"?</h2>
+            </div>
+            <div class="row">
+                <div class="button-box">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-danger">Delete</button>
+                        </div>
+                        <div class="control">
+                            <a class="button is-text" href="{% url 'dashboard' %}">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

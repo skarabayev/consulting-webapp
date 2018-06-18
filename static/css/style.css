@@ -19,3 +19,11 @@ body{
 .table{
     width: 100%;
 }
+
+.message-box{
+    margin: 5px;
+}
+
+.message-box .button-box{
+    margin-top: 10px;
+}
