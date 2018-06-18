@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Dashboard {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block content %}
+    {% include 'navbar.html' %}
+    {% if user.is_manager %}
+        {% include 'manager.html' %}
+    {% elif user.is_employee %}
+        {% include 'employee.html' %}
+    {% endif %}
+
+{% endblock %}

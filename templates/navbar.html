@@ -1,0 +1,17 @@
+{% load static %}
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <div class="navbar-item" href="#">
+                <img src="{% static 'icons/logo.svg' %}" width="50" alt="Consulting">
+                <h3>Consulting</h3>
+            </div>
+        </div>
+        <div class="navbar-menu navbar-end">
+            <div class="navbar-item">
+                <h1>Welcome, {{ user.full_name }}</h1>
+            </div>
+            <div class="navbar-item">
+                <a href="{% url 'logout' %}" class="is-link">Logout</a>
+            </div>
+        </div>
+</nav>

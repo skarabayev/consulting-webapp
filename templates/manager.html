@@ -1,0 +1,111 @@
+{% load static %}
+<div class="container">
+    <h1 class="title">Manager menu</h1>
+    <a href="{% url 'create' %}" class="button is-primary">
+        <span>Submit new case</span>
+        <span class="icon">
+            <i class="fas fa-file"></i>
+        </span>
+    </a>
+    <div class="row">
+        <div class="column">
+        <div class="box">
+            <h3 class="subtitle">Unreviewed cases</h3>
+                <table class="table">
+                <thead>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>DESCRIPTION</th>
+                        <th>STATUS</th>
+                        <th>EDIT</th>
+                        <th>DELETE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for case in unreviewed %}
+                    <tr>
+                        <td>{{ case.identifier }}</td>
+                        <td>
+                            {% if case.description|length <= 30 %}
+                                {{ case.description }}
+                            {% else %}
+                                {{ case.description|truncatechars:30 }}...
+                            {% endif %}
+                        </td>
+                        <td>{{ case.get_status_display }}</td>
+                        <td>
+                            <a href="{% url 'update' case.pk %}">
+                                <span class="icon">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="">
+                                <span class="icon">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <h3>No records</h3>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <h3 class="subtitle">Reviewed cases</h3>
+                <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>DESCRIPTION</th>
+                        <th>STATUS</th>
+                        <th>EDIT</th>
+                        <th>DELETE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for case in reviewed %}
+                    <tr>
+                        <td>{{ case.identifier }}</td>
+                        <td>
+                            {% if case.description|length <= 30 %}
+                                {{ case.description }}
+                            {% else %}
+                                {{ case.description|truncatechars:30 }}...
+                            {% endif %}
+                        </td>
+                        <td>{{ case.get_status_display }}</td>
+                        <td>
+                            <a href="">
+                                <span class="icon">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="">
+                                <span class="icon">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <h3>No records</h3>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
