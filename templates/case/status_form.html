@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Case status {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="box message-box">
+            <form action="" method="post">
+                {% csrf_token %}
+                {% for field in  form%}
+                <label class="label" for="{{ field.id_for_label}}">
+                    {{ field.label }}
+                </label>
+                <div class="control">
+                    {{ field|attr:"class:input"}}
+                </div>
+                {% endfor %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="help is-danger">
+                            {{ message }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+                <div class="field button-box">
+                    <div class="control">
+                        <button class="button is-link" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

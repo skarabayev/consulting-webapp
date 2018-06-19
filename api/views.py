@@ -10,9 +10,12 @@ from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView, CreateView, UpdateView, DetailView, DeleteView
+from rest_framework import viewsets
 
-from api.forms import LoginForm, CaseAddForm, CaseForm, PaperDocumentForm, EDocumentForm
+from api.forms import LoginForm, CaseAddForm, CaseForm, PaperDocumentForm, EDocumentForm, CaseCheckpointForm, \
+    CaseStatusForm
 from api.models import Case, PaperDocument, EDocument, CaseType
+from api.serializers import CaseSerializer
 
 
 class LoginAuthView(LoginView):
@@ -87,6 +90,31 @@ class CaseFilesEditView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         return test_result
 
 
+class CaseCheckpointView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+
+    model = Case
+    form_class = CaseCheckpointForm
+    template_name = 'case/checkpoint_case.html'
+    success_url = reverse_lazy('dashboard')
+
+    def test_func(self):
+        test_result = self.request.user.is_employee
+        if not test_result:
+            messages.error(self.request, _("Permission denied!"))
+        return test_result
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['title'] = 'Update paper document'
+        data['cid'] = int(self.kwargs.get('pk'))
+        return data
+
+    def get_success_url(self):
+        case_id = int(self.kwargs.get('pk'))
+        case = Case.objects.get(id=case_id)
+        return reverse_lazy('edit', kwargs={'pk':case.pk})
+
+
 class CaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     model = Case
@@ -100,7 +128,6 @@ class CaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('dashboard')
-
 
 
 class PaperDocumentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -295,8 +322,25 @@ class EDocumentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return reverse_lazy('edit', kwargs={'pk': document.case_id})
 
 
+class CaseViewSet(viewsets.ModelViewSet):
+    queryset = Case.objects.all()
+    serializer_class = CaseSerializer
+
+
+@require_http_methods(['GET','POST'])
+def check_status(request, *args, **kwargs):
+    if request.method == 'POST':
+        form = CaseStatusForm(request.POST)
+        if form.is_valid():
+            case = Case.objects.get(identifier=form.cleaned_data['identifier'])
+            return render(request, 'case/status_case.html', {"case":case})
+        messages.error(request, "Wrong indentifier or passcode!")
+    else:
+        form = CaseStatusForm()
+    return render(request, 'case/status_form.html', {"form":form})
+
 @require_http_methods("GET")
-@user_passes_test(lambda user: user.is_manager)
+@user_passes_test(lambda user: user.is_manager or user.is_employee)
 @login_required
 def download_script(request, *agrs, **kwargs):
     script_id = int(kwargs.get('pk'))
@@ -318,8 +362,6 @@ def download_edocument(request, *args, **kwargs):
         response['Content-Disposition'] = 'attachment; filename={}'.format(filename)
         return response
     return HttpResponseForbidden()
-
-
 
 
 

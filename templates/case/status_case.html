@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} Case status {% endblock %}
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="field">
+            <label class="label" for="id_identifier">
+                Identifier
+            </label>
+            <div class="control">
+                <input type="text" class="input" id="id_identifier"
+                            value="{{ case.identifier }}" readonly>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label" for="id_status">
+                Status
+            </label>
+            <div class="control">
+                <input type="text" class="input" id="id_status"
+                            value="{{ case.get_status_display }}" readonly>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -29,6 +29,15 @@
                             value="{{ object.submition_datetime }}" readonly>
                     </div>
                 </div>
+                <div class="field">
+                    <label class="label" for="id_checkpoint">
+                        Checkpoint
+                    </label>
+                    <div class="control">
+                        <input type="text" class="input" id="id_checkpoint"
+                            value="{{ object.checkpoint }}" readonly>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -132,6 +141,9 @@
                 </div>
                 <div class="control">
                     <a class="button is-link" href="{% url 'new_paper' object.pk %}">Add paper document</a>
+                </div>
+                <div class="control">
+                    <a class="button is-link" href="{% url 'checkpoint' object.pk %}">Update checkpoint</a>
                 </div>
                 <div class="control">
                     <a class="button is-text" href="{% url 'dashboard' %}">Cancel</a>

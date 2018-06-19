@@ -123,7 +123,7 @@ class CaseType(models.Model):
 
 class Checkpoint(models.Model):
 
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -146,7 +146,7 @@ class Case(models.Model):
     submition_datetime = models.DateTimeField()
     description = models.CharField(max_length=500)
     status = models.IntegerField(choices=choices, default=NA)
-    checkpoint = models.ForeignKey('api.Checkpoint', on_delete=models.PROTECT, null=True)
+    checkpoint = models.ForeignKey('api.Checkpoint', on_delete=models.PROTECT, blank=True)
     type = models.ForeignKey("api.CaseType", on_delete=models.PROTECT)
     executor = models.ForeignKey("api.Employee", on_delete=models.PROTECT,
                                  blank=True,

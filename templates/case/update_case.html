@@ -115,6 +115,21 @@
                 </p>
             {% endif %}
         </div>
+        <div class="field">
+            <label class="label" for="{{ form.checkpoint.id_for_label}}">
+                {{ form.checkpoint.label }}
+            </label>
+            <div class="control">
+                <div class="select">
+                    {{ form.checkpoint }}
+                </div>
+            </div>
+            {% if form.checkpoint.errors %}
+                <p class="help is-danger">
+                    {{ form.checkpoint.errors|striptags }}
+                </p>
+            {% endif %}
+        </div>
         <div class="field is-grouped">
             <div class="control">
                 <button class="button is-link" type="submit">Submit</button>

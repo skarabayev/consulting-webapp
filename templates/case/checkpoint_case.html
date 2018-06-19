@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %} {{ title }} {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+{% block content %}
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h3 class="subtitle">Update case</h3>
+        <form action="" method="post">
+        {% csrf_token %}
+            <div class="field">
+                <label class="label" for="{{ form.identifier.id_for_label}}">
+                    {{ form.identifier.label }}
+                </label>
+                <div class="control">
+                    {{ form.identifier|attr:"class:input"|attr:"readonly" }}
+                </div>
+                {% if form.identifier.errors %}
+                    <p class="help is-danger">
+                        {{ form.identifier.errors|striptags }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="field">
+                <label class="label" for="{{ form.submition_datetime.id_for_label}}">
+                    {{ form.submition_datetime.label }}
+                </label>
+                <div class="control">
+                    {{ form.submition_datetime|attr:"class:input"|attr:"type:datetime" }}
+                </div>
+                {% if form.submition_datetime.errors %}
+                    <p class="help is-danger">
+                        {{ form.submition_datetime.errors|striptags }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="field">
+                <div class="control">
+                    <a class="button is-text" href="{% url 'download_script' object.type.pk %}">
+                        Download script
+                    </a>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label" for="{{ form.checkpoint.id_for_label}}">
+                    {{ form.checkpoint.label }}
+                </label>
+                <div class="control">
+                    <div class="select">
+                        {{ form.checkpoint }}
+                    </div>
+                </div>
+                {% if form.checkpoint.errors %}
+                    <p class="help is-danger">
+                        {{ form.checkpoint.errors|striptags }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" type="submit">Submit</button>
+                </div>
+                <div class="control">
+                    <a class="button is-text" href="{% url 'edit' cid %}">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

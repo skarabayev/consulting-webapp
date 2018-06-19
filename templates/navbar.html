@@ -7,6 +7,7 @@
                 <h3>Consulting</h3>
             </div>
         </div>
+        {% if user %}
         <div class="navbar-menu navbar-end">
             <div class="navbar-item">
                 <h1>Welcome, {{ user.full_name }}</h1>
@@ -15,5 +16,6 @@
                 <a href="{% url 'logout' %}" class="is-link">Logout</a>
             </div>
         </div>
+        {% endif %}
     </div>
 </nav>

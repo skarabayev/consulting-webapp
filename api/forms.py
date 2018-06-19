@@ -49,6 +49,41 @@ class CaseForm(forms.ModelForm):
                 'checkpoint',)
 
 
+class CaseCheckpointForm(forms.ModelForm):
+
+    class Meta:
+        model = Case
+        fields = ('identifier',
+                  'submition_datetime',
+                  'checkpoint',)
+
+
+class CaseAddForm(forms.ModelForm):
+
+    description = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = Case
+        fields = ('submition_datetime',
+                  'description',
+                  'type',)
+
+
+class CaseStatusForm(forms.Form):
+
+    identifier = forms.CharField(max_length=30, required=True)
+    passcode = forms.CharField(max_length=20, required=True)
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        try:
+            Case.objects.get(identifier=cleaned_data.get("identifier"),
+                                    passcode=cleaned_data.get("passcode"))
+        except ObjectDoesNotExist:
+            raise ValidationError(_('Wrong indentifier or passcode!'))
+        super(CaseStatusForm, self).clean()
+        return cleaned_data
+
 class PaperDocumentForm(forms.ModelForm):
 
     class Meta:
@@ -65,17 +100,6 @@ class PaperDocumentForm(forms.ModelForm):
         super(PaperDocumentForm,self).__init__(*args,**kwargs)
         if has_key:
             self.fields['case'].queryset = Case.objects.filter(id=case_id).all()
-
-
-class CaseAddForm(forms.ModelForm):
-
-    description = forms.CharField(widget=forms.Textarea)
-
-    class Meta:
-        model = Case
-        fields = ('submition_datetime',
-                  'description',
-                  'type',)
 
 
 class EDocumentForm(forms.ModelForm):

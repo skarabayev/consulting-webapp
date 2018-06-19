@@ -1,14 +1,24 @@
 from django.conf.urls import url
 from django.contrib.auth.views import LogoutView
+from django.urls import include
+from rest_framework import routers
+
+from api.views import CaseViewSet
 from . import views
 
+router = routers.DefaultRouter()
+router.register(r'cases', CaseViewSet)
+
+
 urlpatterns=[
+    url(r'^api/', include(router.urls)),
     url(r"^login/$", views.LoginAuthView.as_view(), name='login'),
     url(r"^dashboard/$", views.DashboardPage.as_view(), name='dashboard'),
     url(r'^cases/create/$',views.CaseCreateView.as_view(), name="create"),
     url(r'^cases/update/(?P<pk>\d+)$',views.CaseUpdateView.as_view(), name='update'),
     url(r'^cases/edit/(?P<pk>\d+)$', views.CaseFilesEditView.as_view(), name='edit'),
     url(r'^cases/delete/(?P<pk>\d+)$', views.CaseDeleteView.as_view(), name='delete'),
+    url(r'^cases/checkpoint/(?P<pk>\d+)$', views.CaseCheckpointView.as_view(), name='checkpoint'),
     url(r'^documents/create/(?P<cid>\d+)$',views.PaperDocumentCreateView.as_view(),name='new_paper'),
     url(r'^documents/update/(?P<pk>\d+)$',views.PaperDocumentUpdateView.as_view(),name='update_paper'),
     url(r'^documents/delete/(?P<pk>\d+)$', views.PaperDocumentDeleteView.as_view(), name='delete_pdoc'),
@@ -17,5 +27,6 @@ urlpatterns=[
     url(r'^edocuments/download/(?P<pk>\d+)$', views.download_edocument, name='download'),
     url(r'^edocuments/delete/(?P<pk>\d+)$', views.EDocumentDeleteView.as_view(), name='delete_edoc'),
     url(r'^scripts/(?P<pk>\d+)$', views.download_script, name="download_script"),
+    url(r'^status/$', views.check_status),
     url(r"^logout/$", LogoutView.as_view(), name='logout'),
 ]
