@@ -71,6 +71,11 @@ class CaseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = 'case/update_case.html'
     success_url = reverse_lazy('dashboard')
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['id'] = int(self.kwargs.get('pk'))
+        return data
+
     def test_func(self):
         test_result = self.request.user.is_manager
         if not test_result:
@@ -288,7 +293,7 @@ class EDocumentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_form_kwargs(self):
         kwargs = super(EDocumentUpdateView, self).get_form_kwargs()
         document_id = int(self.kwargs.get('pk'))
-        document = PaperDocument.objects.get(id=document_id)
+        document = EDocument.objects.get(id=document_id)
         kwargs['case_id'] = document.case_id
         return kwargs
 

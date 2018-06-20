@@ -135,6 +135,9 @@
                 <button class="button is-link" type="submit">Submit</button>
             </div>
             <div class="control">
+                <a class="button is-link is-danger" href="{% url 'delete' id %}">Delete</a>
+            </div>
+            <div class="control">
                 <a class="button is-text" href="{% url 'dashboard' %}">Cancel</a>
             </div>
         </div>

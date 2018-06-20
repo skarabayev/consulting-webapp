@@ -3,7 +3,16 @@
 {% load static %}
 {% block title %} Case status {% endblock %}
 {% block content %}
-    {% include 'navbar.html' %}
+    <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <div class="navbar-item" href="#">
+                    <img src="{% static 'icons/logo.svg' %}" width="50" alt="Consulting">
+                    <h3>Consulting</h3>
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <div class="field">
             <label class="label" for="id_identifier">
