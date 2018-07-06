@@ -1,21 +1,27 @@
 {% load static %}
 <nav class="navbar is-light" role="navigation" aria-label="main navigation">
-    <div class="container">
-        <div class="navbar-brand">
-            <div class="navbar-item" href="#">
-                <img src="{% static 'icons/logo.svg' %}" width="50" alt="Consulting">
-                <h3>Consulting</h3>
-            </div>
-        </div>
-        {% if user %}
-        <div class="navbar-menu navbar-end">
-            <div class="navbar-item">
-                <h1>Welcome, {{ user.full_name }}</h1>
-            </div>
-            <div class="navbar-item">
-                <a href="{% url 'logout' %}" class="is-link">Logout</a>
-            </div>
-        </div>
-        {% endif %}
+  <div class="container">
+    <div class="navbar-brand">
+      <div class="navbar-item" href="#">
+        <img src="{% static 'icons/logo.svg' %}" width="50" alt="Consulting">
+        <h3>Consulting</h3>
+      </div>
+      <a id="burger" role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+      </a>
     </div>
+
+    {% if user %}
+    <div id="navMenu" class="navbar-menu navbar-end">
+      <div class="navbar-item">
+        <h1>Welcome, {{ user.full_name }}</h1>
+      </div>
+      <div class="navbar-item">
+        <a href="{% url 'logout' %}" class="is-link">Logout</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
 </nav>
